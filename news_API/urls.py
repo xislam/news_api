@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
-from api_news_user import views
+from api_news_user.views import NewsAPIView, UserAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('user/create/', views.create_user, name='create_user'),
+    path('user/create/', UserAPIView.as_view(), name='create_user'),
+    path('news/', NewsAPIView.as_view(), name='list all news, or create a new new.')
 ]

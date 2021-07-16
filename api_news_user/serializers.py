@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api_news_user.models import News
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'token')
 
     token = serializers.SerializerMethodField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=False)
 
     def get_token(self, user):
         refresh = RefreshToken.for_user(user)
@@ -25,3 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
             instance.save()
             return instance
+
+
+class NewsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = News
+        fields = ('id', 'news_date', 'news_title', 'news_text')
